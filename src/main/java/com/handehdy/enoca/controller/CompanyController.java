@@ -2,9 +2,11 @@ package com.handehdy.enoca.controller;
 
 import com.handehdy.enoca.dto.request.AddCompanyRequest;
 import com.handehdy.enoca.dto.request.DeleteCompanyRequest;
+import com.handehdy.enoca.dto.request.DeleteEmployeeRequest;
 import com.handehdy.enoca.dto.request.UpdateCompanyRequest;
 import com.handehdy.enoca.dto.response.AddCompanyResponse;
 import com.handehdy.enoca.dto.response.GetAllCompaniesResponse;
+import com.handehdy.enoca.repository.entity.Company;
 import com.handehdy.enoca.service.CompanyService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
@@ -23,19 +25,19 @@ public class CompanyController {
     private final CompanyService companyService;
 
     @PostMapping(SAVE)
-    public ResponseEntity<AddCompanyResponse> addCompany (@RequestBody AddCompanyRequest dto) {
+    public ResponseEntity<Boolean> addCompany (@RequestBody AddCompanyRequest dto) {
         return ResponseEntity.ok(companyService.addCompany(dto));
     }
-    @PutMapping(UPDATE)
-    public ResponseEntity<Boolean> updateCompany (@RequestBody UpdateCompanyRequest dto) {
-        return ResponseEntity.ok(companyService.updateCompany(dto));
+    @PutMapping(UPDATE + "/{id}")
+    public ResponseEntity<Boolean> updateCompany (@PathVariable Long id, @RequestBody UpdateCompanyRequest dto) {
+        return ResponseEntity.ok(companyService.updateCompany(id,dto));
     }
     @DeleteMapping(DELETE)
     public ResponseEntity<Boolean> deleteCompany (@RequestBody DeleteCompanyRequest dto) {
         return ResponseEntity.ok(companyService.deleteCompany(dto));
     }
     @GetMapping(FINDALL)
-    public ResponseEntity<List<GetAllCompaniesResponse>> findAll(){
+    public ResponseEntity<List<Company>> findAll(){
         return ResponseEntity.ok(companyService.getAllCompanies());
     }
 }

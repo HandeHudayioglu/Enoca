@@ -2,7 +2,6 @@ package com.handehdy.enoca.utility;
 
 import com.handehdy.enoca.repository.entity.Company;
 import com.handehdy.enoca.repository.entity.Employee;
-import com.handehdy.enoca.repository.enums.CompanyType;
 import com.handehdy.enoca.service.CompanyService;
 import com.handehdy.enoca.service.EmployeeService;
 import jakarta.annotation.PostConstruct;
@@ -27,7 +26,7 @@ public class Datas {
                 .name("Enoca")
                 .address("Istanbul")
                 .phone("0555765342")
-                .type(CompanyType.TECHNOLOGY)
+                .type("TECHNOLOGY")
                 .country("Turkey").build();
         companyService.save(c1);
 
@@ -35,7 +34,7 @@ public class Datas {
                 .name("Amazon")
                 .address("Washington")
                 .phone("4539474902")
-                .type(CompanyType.TECHNOLOGY)
+                .type("TECHNOLOGY")
                 .country("USA").build();
         companyService.save(c2);
 

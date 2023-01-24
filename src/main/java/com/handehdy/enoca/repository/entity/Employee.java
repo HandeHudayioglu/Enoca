@@ -3,16 +3,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
-
 
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-@Getter
-@Setter
 @Table(name = "employees")
 @Entity
+@Data
 public class Employee {
 
     @Id

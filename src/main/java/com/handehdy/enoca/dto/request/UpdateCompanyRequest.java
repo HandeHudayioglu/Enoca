@@ -1,6 +1,5 @@
 package com.handehdy.enoca.dto.request;
 
-import com.handehdy.enoca.repository.enums.CompanyType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +13,7 @@ public class UpdateCompanyRequest {
 
     private Long id;
     private String name;
-    private CompanyType type;
+    private String type;
     private String country;
     private String address;
     private String phone;

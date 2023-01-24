@@ -7,8 +7,10 @@ import com.handehdy.enoca.dto.response.GetAllEmployeesResponse;
 import com.handehdy.enoca.exception.ErrorType;
 import com.handehdy.enoca.exception.ManagerException;
 import com.handehdy.enoca.repository.IEmployeeRepository;
+import com.handehdy.enoca.repository.entity.Company;
 import com.handehdy.enoca.repository.entity.Employee;
 import com.handehdy.enoca.utility.ServiceManager;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +18,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class EmployeeService  extends ServiceManager<Employee,Long> {
+
+public class EmployeeService extends ServiceManager<Employee,Long>  {
 
     private final IEmployeeRepository employeeRepository;
     private final CompanyService companyService;
@@ -26,10 +29,10 @@ public class EmployeeService  extends ServiceManager<Employee,Long> {
         this.employeeRepository = employeeRepository;
         this.companyService = companyService;
     }
-
+   /*
     public boolean addEmployee(AddEmployeeRequest dto){
         try {
-            Employee employee = save(Employee.builder()
+            Employee employee = employeeRepository.save(Employee.builder()
                     .firstName(dto.getFirstName())
                     .lastName(dto.getLastName())
                     .address(dto.getAddress())
@@ -42,8 +45,26 @@ public class EmployeeService  extends ServiceManager<Employee,Long> {
         } catch(Exception e) {
             throw new ManagerException(ErrorType.EMPYOLEE_NOT_CREATED);
         }
-    }
+    } */
 
+    public Boolean addEmployee( AddEmployeeRequest dto){
+        try {
+            Employee employee = new Employee();
+            employee.setDepartment(dto.getDepartment());
+            employee.setAge(dto.getAge());
+            employee.setAddress(dto.getAddress());
+            employee.setCompany(companyService.findById(dto.getCompanyId()));
+            employee.setFirstName(dto.getFirstName());
+            employee.setLastName(dto.getLastName());
+            employee.setEmail(dto.getEmail());
+             employeeRepository.save(employee);
+             return true;
+
+        } catch(Exception e){
+            throw new ManagerException(ErrorType.EMPYOLEE_NOT_CREATED);
+        }
+    }
+   /*
     public boolean updateEmployee(UpdateEmployeeRequest dto) {
         try {
             Optional<Employee> employee = employeeRepository.findById(dto.getId());
@@ -64,8 +85,31 @@ public class EmployeeService  extends ServiceManager<Employee,Long> {
             catch (Exception e) {
                 throw new ManagerException(ErrorType.EMPYOLEE_NOT_UPDATED);
             }
+        } */
+
+    public Boolean updateEmployee(Long id, UpdateEmployeeRequest dto) {
+        try {
+            Optional<Employee> employee = employeeRepository.findById(id);
+            if (employee.isPresent()) {
+                Employee updateEmployee = employee.get();
+                updateEmployee.setFirstName(dto.getFirstName());
+                updateEmployee.setLastName(dto.getLastName());
+                updateEmployee.setAge(dto.getAge());
+                updateEmployee.setAddress(dto.getAddress());
+                updateEmployee.setDepartment(dto.getDepartment());
+                updateEmployee.setEmail(dto.getEmail());
+                updateEmployee.setCompany(companyService.findById(dto.getCompanyId()));
+                employeeRepository.save(updateEmployee);
+                return true;
+            } else {
+                throw new ManagerException(ErrorType.EMPYOLEE_NOT_FOUND);
+            }
+        }catch(Exception e){
+                throw new ManagerException(ErrorType.EMPYOLEE_NOT_UPDATED);
+            }
         }
 
+        /*
         public boolean deleteEmployee(DeleteEmployeeRequest dto){
         Optional<Employee> employee = employeeRepository.findById(dto.getId());
         if(employee.isPresent()){
@@ -74,13 +118,19 @@ public class EmployeeService  extends ServiceManager<Employee,Long> {
         } else {
             throw new ManagerException(ErrorType.EMPYOLEE_NOT_FOUND);
         }
-        }
-        public List<GetAllEmployeesResponse> getAllEmployees(){
-            List<Employee> employees = findAll();
-            return employees.stream().map (e -> GetAllEmployeesResponse.builder().id(e.getId()).firstName(e.getFirstName())
-                    .lastName(e.getLastName()).address(e.getAddress()).companyName(e.getCompany().getName())
-                    .department(e.getDepartment()).age(e.getAge()).email(e.getEmail()).build()).collect(Collectors.toList());
-        }
+        }*/
 
+    public Boolean deleteEmployee(DeleteEmployeeRequest dto) {
+        Optional<Employee> employee = employeeRepository.findById(dto.getId());
+        if(employee.isPresent()){
+            employeeRepository.deleteById(employee.get().getId());
+            return true;
+        } else {
+            throw new ManagerException(ErrorType.EMPYOLEE_NOT_FOUND);
+        }
+    }
+        public List<Employee> getAllEmployees() {
+            return employeeRepository.findAll();
+        }
     }
 

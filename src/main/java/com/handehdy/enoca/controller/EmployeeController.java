@@ -4,6 +4,7 @@ import com.handehdy.enoca.dto.request.AddEmployeeRequest;
 import com.handehdy.enoca.dto.request.DeleteEmployeeRequest;
 import com.handehdy.enoca.dto.request.UpdateEmployeeRequest;
 import com.handehdy.enoca.dto.response.GetAllEmployeesResponse;
+import com.handehdy.enoca.repository.entity.Employee;
 import com.handehdy.enoca.service.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,16 +28,16 @@ public class EmployeeController {
     public ResponseEntity<Boolean> addEmployee(@RequestBody @Valid AddEmployeeRequest dto) {
         return ResponseEntity.ok(employeeService.addEmployee(dto));
     }
-    @PutMapping(UPDATE)
-    public ResponseEntity<Boolean> updateEmployee (@RequestBody @Valid UpdateEmployeeRequest dto){
-        return ResponseEntity.ok(employeeService.updateEmployee(dto));
+    @PutMapping(UPDATE + "/{id}")
+    public ResponseEntity<Boolean> updateEmployee (@PathVariable Long id, @RequestBody UpdateEmployeeRequest dto){
+        return ResponseEntity.ok(employeeService.updateEmployee(id,dto));
     }
-    @DeleteMapping(DELETE)
+    @DeleteMapping(DELETE )
     public ResponseEntity<Boolean> deleteEmployee(@RequestBody DeleteEmployeeRequest dto) {
         return ResponseEntity.ok(employeeService.deleteEmployee(dto));
     }
     @GetMapping(FINDALL)
-    public ResponseEntity<List<GetAllEmployeesResponse>> findAll(){
+    public ResponseEntity<List<Employee>> findAll(){
         return ResponseEntity.ok(employeeService.getAllEmployees());
     }
 

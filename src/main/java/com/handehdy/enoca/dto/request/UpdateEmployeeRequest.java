@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class UpdateEmployeeRequest {
-
     private Long id;
     private String firstName;
     private String lastName;
