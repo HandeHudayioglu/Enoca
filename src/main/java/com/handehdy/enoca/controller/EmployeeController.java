@@ -3,17 +3,13 @@ package com.handehdy.enoca.controller;
 import com.handehdy.enoca.dto.request.AddEmployeeRequest;
 import com.handehdy.enoca.dto.request.DeleteEmployeeRequest;
 import com.handehdy.enoca.dto.request.UpdateEmployeeRequest;
-import com.handehdy.enoca.dto.response.GetAllEmployeesResponse;
 import com.handehdy.enoca.repository.entity.Employee;
 import com.handehdy.enoca.service.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
 import static com.handehdy.enoca.constant.EndPoint.EMPLOYEE;
 import static com.handehdy.enoca.constant.EndPoint.*;
 
